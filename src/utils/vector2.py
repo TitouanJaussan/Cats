@@ -130,7 +130,7 @@ class Vector2:
         
         return out
     
-    def __iter__(self) -> None:
+    def __iter__(self):
         yield self._x
         yield self._y
     

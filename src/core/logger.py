@@ -5,12 +5,14 @@ class Logger:
     def __init__(self, name: str) -> None:
         self.name = name
 
-        self.error_colors = [Fore.RESET, Fore.YELLOW, Fore.RED]
+        self._error_colors = [Fore.RESET, Fore.YELLOW, Fore.RED]
+        self._BOLD = "\033[1m"
+        self._END = "\033[0m"
     
     def _internal_log(self, msg: str, error_level: int = 0):
-        msg = f"[{self.name}]: {msg}"
+        msg = f"{self._BOLD}[{self.name}]{self._END}: {msg}"
 
-        msg = self.error_colors[min(max(error_level, 0), 2)] + msg
+        msg = self._error_colors[min(max(error_level, 0), 2)] + msg
         
         print(msg, end="\n" + Fore.RESET)
     

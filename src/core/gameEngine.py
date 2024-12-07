@@ -1,20 +1,20 @@
-from math import floor
 from sys import exit as sys_exit
 from time import time
-import os
 import pygame as pg
 from core.logger import Logger
 from core.settingsManager import SettingsManager
 from ui.menuManager import MenuManager
 from ui.menu.mainMenu import MainMenu
+from ui.menu.mainGameMenu import MainGameMenu
+from utils.pathManager import PathManager
 
 class KittyGameEngine:
-    def __init__(self, path: str) -> None:
-        os.system("clear")
-        self.path = path
-        self.logger = Logger("Kitty Engine")
-        self.logger.log("Launching engine...")
-        self.logger.log(f"Loading game at path: {self.path}")
+    def __init__(self, main_file) -> None:
+        self.path_manager = PathManager(main_file)
+        self.logger = Logger(f"Kitty Engine")
+        self.logger.log("Launching engine")
+        self.logger.log(f"Detected OS: {self.path_manager.os}")
+        self.logger.log(f"Loading game at path: {self.path_manager.path}")
 
         self.pixel_size = 6
         self.window = pg.display.set_mode((1920 // self.pixel_size, 1080 // self.pixel_size), flags=pg.FULLSCREEN | pg.SCALED)
@@ -25,6 +25,9 @@ class KittyGameEngine:
         self.menu_manager = MenuManager(self)
 
         self.menu_manager.add_menu(MainMenu(self.menu_manager))
+        self.menu_manager.add_menu(MainGameMenu(self.menu_manager))
+
+        self.menu_manager.switch_menu("maingame")
 
         # dt
         self.last_time = time()
