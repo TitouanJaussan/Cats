@@ -18,10 +18,10 @@ class PathManager:
 
     def concatenate(self, *args) -> str:
         return self.separator.join(args)
-    
+
     def get_extension(self, file_name: str) -> str:
         return file_name[::-1][:file_name[::-1].index(".")][::-1]
-    
+
     def matches_extension(self, file_name: str, extension: str) -> bool:
         return self.get_extension(file_name) == extension
 

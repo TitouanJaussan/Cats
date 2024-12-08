@@ -3,12 +3,14 @@ from game.tile_engine.tile import Tile
 from game.tile_engine.tileResourceManager import TileResourceManager
 from core.logger import Logger
 
+
 class TileEngine:
     def __init__(self, app, world_size: Vector2) -> None:
         self.app = app
         self.world_size = world_size
         self.logger = Logger("Tile Engine")
-        self.resource_manager = TileResourceManager("assets/textures/tiles", self.app.path_manager)
+        self.resource_manager = TileResourceManager(
+            "assets/textures/tiles", self.app.path_manager)
 
         self.tiles: list[list[Tile]] = self._make_blank_world()
 
@@ -21,9 +23,9 @@ class TileEngine:
                 name = list(self.resource_manager.textures.keys())[0]
                 tex = self.resource_manager.query_texture(name)
                 world[x].append(Tile(name, tex, Vector2(x * 16, y * 16)))
-        
+
         return world
-    
+
     def update(self) -> None:
         pass
 
