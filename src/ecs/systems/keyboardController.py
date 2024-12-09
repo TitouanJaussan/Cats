@@ -2,26 +2,40 @@ import pygame as pg
 from utils.vector2 import Vector2
 from ecs.systems.system import System
 from ecs.components.position import PositionComponent
+from ecs.components.velocity import VelocityComponent
 
 
 class KeyboardControllerSystem(System):
     def __init__(self, entity) -> None:
-        super().__init__(entity, [PositionComponent])
+        super().__init__(entity, [PositionComponent, VelocityComponent])
 
     def apply(self):
+        if not self._check_for_required_components():
+            raise Exception("Could not find all required components")
         keys = pg.key.get_pressed()
-        pos_comp: PositionComponent = self.entity.get_component(
+
+        vel_component: VelocityComponent = self.entity.get_component(
+            VelocityComponent)
+        pos_component: PositionComponent = self.entity.get_component(
             PositionComponent)
 
-        pos = pos_comp.get_data()
+        vel = vel_component.get_data()
+        pos = pos_component.get_data()
+        dt = self.entity.app.dt
+        speed = 60
 
         if keys[pg.K_LEFT]:
-            pos += Vector2(-1, 0)
+            vel += Vector2(-speed, 0) * dt * 60
         if keys[pg.K_RIGHT]:
-            pos += Vector2(1, 0)
+            vel += Vector2(speed, 0) * dt * 60
         if keys[pg.K_UP]:
-            pos += Vector2(0, -1)
+            vel += Vector2(0, -speed) * dt * 60
         if keys[pg.K_DOWN]:
-            pos += Vector2(0, 1)
+            vel += Vector2(0, speed) * dt * 60
 
-        pos_comp.set_data(pos)
+        vel += (vel * -dt * 10)
+
+        pos += vel.as_int() * dt
+
+        vel_component.set_data(vel.copy())
+        pos_component.set_data(pos)

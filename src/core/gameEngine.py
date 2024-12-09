@@ -53,7 +53,7 @@ class KittyGameEngine:
         self.logger.log("Launching game")
         self._run()
 
-    def update_time(self) -> None:
+    def _update_time(self) -> None:
         self.dt = time() - self.last_time
         self.last_time = time()
 
@@ -70,6 +70,7 @@ class KittyGameEngine:
     def _run(self) -> None:
         while True:
             self._handle_default_events()
+            self._update_time()
             self.update()
             self.render()
             self.clock.tick(self.framerate)

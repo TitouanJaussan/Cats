@@ -45,6 +45,16 @@ class Vector2:
     def copy(self):
         return Vector2(self._x, self._y)
 
+    def as_int(self):
+        return Vector2(int(self._x), int(self._y))
+
+    def lerp(self, target_value, x: float):
+        print(self)
+        delta = target_value - self
+        self += (delta * x)
+        print(self)
+        print()
+
     def __add__(self, other):
         out = self.copy()
 

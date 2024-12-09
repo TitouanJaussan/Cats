@@ -4,6 +4,7 @@ from ui.menu.menu import Menu
 from game.tile_engine.tileEngine import TileEngine
 from ecs.entities.entity import Entity
 from ecs.components.position import PositionComponent
+from ecs.components.velocity import VelocityComponent
 from ecs.systems.keyboardController import KeyboardControllerSystem
 
 
@@ -12,8 +13,9 @@ class MainGameMenu(Menu):
         super().__init__(menu_manager)
         self.tile_engine = TileEngine(self.menu_manager.app, Vector2(2, 2))
 
-        self.player = Entity()
+        self.player = Entity(self.menu_manager.app)
         self.player.add_component(PositionComponent(self.player))
+        self.player.add_component(VelocityComponent(self.player))
         self.player.add_system(KeyboardControllerSystem(self.player))
 
     def update(self) -> None:

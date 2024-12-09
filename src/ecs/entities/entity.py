@@ -6,7 +6,8 @@ from ecs.systems.system import System
 
 
 class Entity:
-    def __init__(self, components: dict[Type, Component] = {}, systems: dict[Type, System] = {}) -> None:
+    def __init__(self, app, components: dict[Type, Component] = {}, systems: dict[Type, System] = {}) -> None:
+        self.app = app
         self.components: dict[Type, Component] = components
         self.systems = systems
 
